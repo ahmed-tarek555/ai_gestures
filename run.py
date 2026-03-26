@@ -11,6 +11,7 @@ camera_source = 0
 
 def detect(source):
     cap = cv2.VideoCapture(source)
+    output_text = []
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -22,6 +23,7 @@ def detect(source):
             continue
         embedding = model(img_tensor)
         result = recognize(embedding)
+        output_text.append(result)
         cv2.putText(frame, f'{result}', (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
         cv2.imshow("Camera", frame)
 
@@ -30,6 +32,7 @@ def detect(source):
 
     cap.release()
     cv2.destroyAllWindows()
+    return "".join(output_text)
 
 def register(source):
     cap = cv2.VideoCapture(source)
