@@ -30,4 +30,4 @@ class Model(nn.Module):
             loss = F.cross_entropy(logits, y)
             return loss
         else:
-            return F.normalize(embeddings)
+            return F.normalize(embeddings, dim=0)

@@ -78,7 +78,8 @@ def load_known_embeddings(dir):
     known_embddings = {}
     for char_name in os.listdir(dir):
         char_path = os.path.join(dir, char_name)
-        embedding = os.listdir(char_path)[0]
+        tensor_path = os.path.join(char_path, os.listdir(char_path)[0])
+        embedding = torch.load(tensor_path, weights_only=False)
         known_embddings[char_name] = embedding
     return known_embddings
 
