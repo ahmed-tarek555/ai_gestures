@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
+from routers import detect, register
 
 templates = Jinja2Templates(directory="templates")
 
@@ -14,6 +15,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(detect.router)
+app.include_router(register.router)
+
 @app.get("/")
-async def home():
-    return templates.TemplateResponse("main.html")
+async def home(request: Request):
+    return templates.TemplateResponse("main.html", {"request": request})

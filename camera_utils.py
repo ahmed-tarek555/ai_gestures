@@ -9,9 +9,9 @@ model.eval()
 
 camera_source = "http://192.168.100.93:4747/video"
 
-def detect(source):
+def detect(source=camera_source):
     cap = cv2.VideoCapture(source)
-    output_text = []
+    output_list = []
 
     frame_count = 0
     compute_every = 15
@@ -28,7 +28,8 @@ def detect(source):
             if img_tensor is not None:
                 embedding = model(img_tensor)
                 result = recognize(embedding, threshold=0.5)
-                output_text.append(result)
+                if result is not None:
+                    output_list.append(result)
             else:
                 result = None
 
@@ -40,12 +41,17 @@ def detect(source):
 
     cap.release()
     cv2.destroyAllWindows()
-    return "".join(output_text)
 
-def register(source):
+    cleaned_list = []
+    for char in output_list:
+        if not cleaned_list or cleaned_list[-1] != char:
+            cleaned_list.append(char)
+
+    return " ".join(cleaned_list)
+
+def register(name, source=camera_source):
     cap = cv2.VideoCapture(f"{source}")
     embeddings_list = []
-    name = input()
 
     frame_count = 0
     compute_every = 10
@@ -72,5 +78,3 @@ def register(source):
 
     cap.release()
     cv2.destroyAllWindows()
-
-detect(camera_source)

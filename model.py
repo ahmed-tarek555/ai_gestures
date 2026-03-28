@@ -2,7 +2,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from utils import input_size, classes
 
-n_hidden = 200
+n_hidden = 512
 n_classes = len(classes)
 
 class Model(nn.Module):

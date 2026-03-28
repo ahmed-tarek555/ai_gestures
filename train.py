@@ -2,7 +2,7 @@ import torch
 from utils import load_dataset, get_batch, model_path
 from model import Model
 
-n_iter = 1000
+n_iter = 12000
 lr = 1e-5
 
 model  = Model()
